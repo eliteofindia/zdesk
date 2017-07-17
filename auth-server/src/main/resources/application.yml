@@ -7,3 +7,20 @@ server:
  port: 8080
 keystore:
   password: mySecretKey
+  
+spring:
+  config:
+    location: classpath:/oauthsocialclients.yml
+    
+facebook:
+    client:
+      clientId: 692899840881825
+      clientSecret: 61ac73198af844fed4b5a19dec8bfe1e
+      accessTokenUri: https://graph.facebook.com/oauth/access_token
+      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+      tokenName: oauth_token
+      scope: email
+      authenticationScheme: query
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: https://graph.facebook.com/me 
