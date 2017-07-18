@@ -24,6 +24,7 @@ public class ApiServer {
         SpringApplication.run(ApiServer.class, args);
     }
 
+   
     private String message = "Hello world!";
 
     @PreAuthorize("#oauth2.hasScope('resource-server-read')")

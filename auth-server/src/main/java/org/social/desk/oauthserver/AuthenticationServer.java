@@ -8,7 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.security.Principal;
+
+import javax.servlet.http.HttpServletResponse;
 
 @SpringBootApplication
 @RestController
@@ -21,7 +24,7 @@ public class AuthenticationServer {
     private static final Log logger = LogFactory.getLog(AuthenticationServer.class);
 
     @RequestMapping({"/user","/"})
-    public Principal user(Principal user) {
+    public Principal user(Principal user, HttpServletResponse httpresponse) throws IOException {
         logger.info("AS /user has been called");
         logger.debug("user info: " + user.toString());
         return user;

@@ -17,5 +17,6 @@ security:
 
 resourceServerClient:
   accessTokenUri: http://localhost:8080/auth/oauth/token
+  userInfoUri: http://localhost:8080/auth/user
   clientId: zdesk
   clientSecret: zdesksecret

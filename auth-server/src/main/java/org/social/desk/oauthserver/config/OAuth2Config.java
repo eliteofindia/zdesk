@@ -60,7 +60,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         clients.inMemory()
                 .withClient("zdesk")
                 .secret("zdesksecret")
-                .authorizedGrantTypes("client_credentials")
+                .authorizedGrantTypes("client_credentials", "password", "refresh_token")
                 .scopes("resource-server-read", "resource-server-write")
                 .accessTokenValiditySeconds(60);
     }
