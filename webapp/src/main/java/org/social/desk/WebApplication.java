@@ -11,12 +11,12 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.token.AccessTokenRequest;
 import org.springframework.security.oauth2.client.token.DefaultAccessTokenRequest;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
-import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.Map;
 
 @SpringBootApplication
@@ -38,6 +38,11 @@ public class WebApplication {
     @RequestMapping(value = "/api/message", method = RequestMethod.POST)
     public void saveMessage(@RequestBody String newMessage) {
         resourceServerProxy.postForLocation("http://localhost:9090", newMessage);
+    }
+    
+    @RequestMapping("/ouath")
+    public Principal  userDetails(Principal user){
+    	return user;
     }
 
     @Configuration

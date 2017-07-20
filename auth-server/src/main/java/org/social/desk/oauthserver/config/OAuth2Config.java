@@ -61,8 +61,10 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .withClient("zdesk")
                 .secret("zdesksecret")
                 .authorizedGrantTypes("client_credentials", "password", "refresh_token")
+                .redirectUris("http://localhost:9999/oauth")
                 .scopes("resource-server-read", "resource-server-write")
-                .accessTokenValiditySeconds(60);
+                .accessTokenValiditySeconds(60)
+                .refreshTokenValiditySeconds(120);
     }
 
 }
