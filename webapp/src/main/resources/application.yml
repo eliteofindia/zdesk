@@ -22,3 +22,18 @@ resourceServerClient:
   use-current-uri: false
   clientId: zdesk
   clientSecret: zdesksecret
+  
+  
+facebook:
+  client:
+    clientId: 692899840881825
+    clientSecret: 61ac73198af844fed4b5a19dec8bfe1e
+    accessTokenUri: https://graph.facebook.com/oauth/access_token
+    userAuthorizationUri: https://www.facebook.com/dialog/oauth
+    tokenName: oauth_token
+    scope: email
+    display: popup
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://graph.facebook.com/me?fields=id,name,picture,email

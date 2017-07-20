@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SpringBootApplication
@@ -23,11 +24,22 @@ public class AuthenticationServer {
 
     private static final Log logger = LogFactory.getLog(AuthenticationServer.class);
 
-    @RequestMapping({"/user","/"})
+    @RequestMapping({"/user","/me"})
     public Principal user(Principal user, HttpServletResponse httpresponse) throws IOException {
         logger.info("AS /user has been called");
         logger.debug("user info: " + user.toString());
         return user;
+    }
+    
+    @RequestMapping("/")
+    public void client(Principal user, HttpServletResponse httpresponse) throws IOException {
+    	logger.info("Authenticates user = "+user.getName());
+    	if(user.getName()!=null || user.getName()!=""){
+    		httpresponse.setHeader("USER", user.toString());
+    		httpresponse.sendRedirect("http://localhost:9999/oauth/"+user.getName());
+    	}
+    	else
+    		httpresponse.sendRedirect("http://localhost:9999/oauth?error");
     }
     
 }

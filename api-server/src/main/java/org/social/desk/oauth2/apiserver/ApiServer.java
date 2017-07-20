@@ -44,5 +44,8 @@ public class ApiServer {
     public Map<String, String> user(Principal user) {
         return Collections.singletonMap("message", "user is: " + user.toString());
     }
+    
+    //httpresponse.addHeader("Authorization", "zdesk:zdesksecret");
+	//httpresponse.sendRedirect("http://localhost:8080/auth/login/facebook");
 
 }

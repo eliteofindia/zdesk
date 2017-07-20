@@ -2,19 +2,23 @@ package org.social.desk.webcontrollers;
 
 
 import java.io.IOException;
+import java.security.Principal;
 
-import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class OAuthLoginController {
 
-	@RequestMapping(value = "/login/facebook", method = RequestMethod.GET)
-    public void facebookLogin(HttpServletResponse httpServletResponse) throws IOException {
-        //return resourceServerProxy.getForObject("http://localhost:8080/auth/login/facebook", Map.class);
-		httpServletResponse.sendRedirect("http://localhost:8080/auth/login/facebook");
+	private static final Log logger = LogFactory.getLog(OAuthLoginController.class);
+
+    @RequestMapping({"/user"})
+    public Principal user(Principal user) throws IOException {
+        logger.info("AS /user has been called");
+        logger.debug("user info: " + user.toString());
+        return user;
     }
 	
 }
