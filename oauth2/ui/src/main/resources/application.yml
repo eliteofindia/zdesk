@@ -1,5 +1,7 @@
-server.port: 9001
-server.context-path: /zuul
+server:
+  port: 9001
+  context-path: /app
+
 debug: true
 
 spring:
@@ -10,8 +12,8 @@ spring:
 security:
   oauth2:
     client:
-      client-id: acme
-      client-secret: acmesecret
+      client-id: zdesk
+      client-secret: zdesksecret
       access-token-uri: http://localhost:8080/oauth/token
       user-authorization-uri: http://localhost:8080/oauth/authorize
       grant-type: implicit

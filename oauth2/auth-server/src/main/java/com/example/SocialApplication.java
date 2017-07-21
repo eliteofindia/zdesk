@@ -67,6 +67,7 @@ public class SocialApplication extends WebSecurityConfigurerAdapter {
 	public Map<String, String> user(Principal principal) {
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put("name", principal.getName());
+		map.put("name1", principal.toString());
 		return map;
 	}
 

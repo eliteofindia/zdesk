@@ -1,15 +1,15 @@
 security:
   oauth2:
     client:
-      client-id: acme
-      client-secret: acmesecret
+      client-id: zdesk
+      client-secret: zdesksecret
       scope: read,write
       auto-approve-scopes: '.*'
 
 facebook:
   client:
-    clientId: 233668646673605
-    clientSecret: 33b17e044ee6a4fa383f46ec6e28ea1d
+    clientId: 692899840881825
+    clientSecret: 61ac73198af844fed4b5a19dec8bfe1e
     accessTokenUri: https://graph.facebook.com/oauth/access_token
     userAuthorizationUri: https://www.facebook.com/dialog/oauth
     tokenName: oauth_token

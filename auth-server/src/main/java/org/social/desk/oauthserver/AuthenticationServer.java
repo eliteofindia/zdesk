@@ -31,15 +31,4 @@ public class AuthenticationServer {
         return user;
     }
     
-    @RequestMapping("/")
-    public void client(Principal user, HttpServletResponse httpresponse) throws IOException {
-    	logger.info("Authenticates user = "+user.getName());
-    	if(user.getName()!=null || user.getName()!=""){
-    		httpresponse.setHeader("USER", user.toString());
-    		httpresponse.sendRedirect("http://localhost:9999/oauth/"+user.getName());
-    	}
-    	else
-    		httpresponse.sendRedirect("http://localhost:9999/oauth?error");
-    }
-    
 }
