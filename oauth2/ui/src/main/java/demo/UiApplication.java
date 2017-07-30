@@ -20,15 +20,10 @@ public class UiApplication extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http
-			.logout().and()
-			.authorizeRequests()
-				.antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
-				.anyRequest().authenticated()
-				.and()
-			.csrf()
+		http.logout().and().authorizeRequests().antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
+				.anyRequest().authenticated().and().csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-			// @formatter:on
+		// @formatter:on
 	}
+	
 }
-

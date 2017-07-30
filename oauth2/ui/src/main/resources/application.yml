@@ -1,14 +1,10 @@
 server:
   port: 9001
   context-path: /app
-
 debug: true
-
 spring:
   aop:
     proxy-target-class: true
-
-
 security:
   oauth2:
     client:
@@ -18,8 +14,8 @@ security:
       user-authorization-uri: http://localhost:8080/oauth/authorize
       grant-type: implicit
     resource:
-      user-info-uri: http://localhost:8080/me
-
+      jwt:
+        keyUri: http://localhost:8080/oauth/token_key
 zuul:
   routes:
     resource:
@@ -28,7 +24,6 @@ zuul:
     user:
       path: /user/**
       url: http://localhost:8080/me
-
 logging:
   level:
     org.springframework.security: DEBUG

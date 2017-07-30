@@ -1,10 +1,12 @@
 server:
   port: 9000
   context-path: /resource
+  
 security:
   oauth2:
     resource:
-      user-info-uri: http://localhost:8080/me
+      jwt:
+        keyUri: http://localhost:8080/oauth/token_key
 
 logging:
   level:

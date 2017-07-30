@@ -1,11 +1,3 @@
-security:
-  oauth2:
-    client:
-      client-id: zdesk
-      client-secret: zdesksecret
-      scope: read,write
-      auto-approve-scopes: '.*'
-
 facebook:
   client:
     clientId: 692899840881825
@@ -26,7 +18,10 @@ github:
     clientAuthenticationScheme: form
   resource:
     userInfoUri: https://api.github.com/user
-
 logging:
   level:
     org.springframework.security: DEBUG
+server:
+  port: 8080
+keystore:
+  password: mySecretKey
