@@ -38,6 +38,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
@@ -76,6 +77,7 @@ public class SocialApplication extends WebSecurityConfigurerAdapter {
 				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
 				.logoutSuccessUrl("/").permitAll().and().csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
 				.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
 	}

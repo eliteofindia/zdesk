@@ -3,6 +3,8 @@ server:
   context-path: /resource
   
 security:
+  basic:
+    enabled: false
   oauth2:
     resource:
       jwt:

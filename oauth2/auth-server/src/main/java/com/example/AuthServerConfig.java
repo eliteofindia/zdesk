@@ -64,9 +64,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .secret("zdesksecret")
                 .authorizedGrantTypes("client_credentials", "password", "refresh_token", "authorization_code", "implicit")
                 .scopes("read", "write")
-                .autoApprove(true)
-                .accessTokenValiditySeconds(60)
-                .refreshTokenValiditySeconds(120);
+                .autoApprove(false)
+                .accessTokenValiditySeconds(600)
+                .refreshTokenValiditySeconds(1200);
     }
 
 

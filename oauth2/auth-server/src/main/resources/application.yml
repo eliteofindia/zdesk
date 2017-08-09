@@ -25,3 +25,6 @@ server:
   port: 8080
 keystore:
   password: mySecretKey
+security:
+  basic:
+    enabled: false
