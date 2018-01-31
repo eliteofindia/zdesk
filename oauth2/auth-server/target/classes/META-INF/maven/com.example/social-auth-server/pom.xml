@@ -44,7 +44,6 @@
 		<dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-devtools</artifactId>
-	        <version>1.3.0.RELEASE</version>
 	        <optional>true</optional>
 	        <scope>runtime</scope>
 	    </dependency>
@@ -78,6 +77,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-jwt</artifactId>
 		</dependency>
 	</dependencies>
 

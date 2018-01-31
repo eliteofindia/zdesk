@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: OAuth2 Resource
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: osboxes
+Built-By: aawasthi
 Implementation-Vendor-Id: org.test
-Build-Jdk: 1.8.0_121
+Build-Jdk: 1.8.0_152
 Implementation-URL: http://projects.spring.io/spring-boot/oauth2-resou
  rce/
 Created-By: Maven Integration for Eclipse
