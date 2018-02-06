@@ -1,6 +1,9 @@
 server:
   port: 9001
   context-path: /app
+  session:
+    cookie:
+      name: zdesk_app_token
 debug: true
 spring:
   aop:
@@ -8,16 +11,18 @@ spring:
 security:
   basic:
     enabled: false
-  oauth2:
-    client:
-      client-id: zdesk
-      client-secret: zdesksecret
-      access-token-uri: http://localhost:8080/oauth/token
-      user-authorization-uri: http://localhost:8080/oauth/authorize
-      grant-type: implicit
-    resource:
-      jwt:
-        keyUri: http://localhost:8080/oauth/token_key
+zdesk:
+  client:
+    client-id: zdesk
+    client-secret: zdesksecret
+    access-token-uri: http://localhost:8080/oauth/token
+    user-authorization-uri: http://localhost:8080/oauth/authorize
+    grant-type: authorization_code
+    pre-established-redirect-uri: http://localhost:9001/app/
+    registered-redirect-uri: http://localhost:9001/app/
+    use-current-uri: false
+  resource:
+    userInfoUri: http://localhost:8080/user
 zuul:
   routes:
     resource:
