@@ -1,4 +1,4 @@
-package demo;
+package org.zdesk;
 
 import java.security.Principal;
 import java.util.Collections;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class ResourceApplication {
+public class StartApiServer {
 
 	@RequestMapping("/")
 	public Message home() {
@@ -30,7 +30,7 @@ public class ResourceApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ResourceApplication.class, args);
+		SpringApplication.run(StartApiServer.class, args);
 	}
 
 }

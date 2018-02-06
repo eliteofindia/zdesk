@@ -1,4 +1,4 @@
-package demo;
+package org.zdesk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,10 +11,10 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableOAuth2Sso
-public class UiApplication extends WebSecurityConfigurerAdapter {
+public class StartWebApplication extends WebSecurityConfigurerAdapter {
 
 	public static void main(String[] args) {
-		SpringApplication.run(UiApplication.class, args);
+		SpringApplication.run(StartWebApplication.class, args);
 	}
 
 	@Override

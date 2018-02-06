@@ -20,6 +20,7 @@ function($rootScope, $http, $location, $route) {
 	};
 
 	$http.get('user').then(function(response) {
+		console.log(response);
 		if (response.data.name) {
 			$rootScope.authenticated = true;
 		} else {
@@ -41,6 +42,7 @@ function($rootScope, $http, $location, $route) {
 }).controller('home', function($http) {
 	var self = this;
 	$http.get('resource/').then(function(response) {
+		console.log(response);
 		self.greeting = response.data;
 	})
 });

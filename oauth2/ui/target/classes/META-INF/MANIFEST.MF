@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Implementation-Title: OAuth2 UI
+Implementation-Title: OAuth2 ZDESK App
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: aawasthi
-Implementation-Vendor-Id: org.test
+Implementation-Vendor-Id: org.zdesk
 Build-Jdk: 1.8.0_152
-Implementation-URL: http://projects.spring.io/spring-boot/oauth2-ui/
+Implementation-URL: http://projects.spring.io/spring-boot/web/
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 

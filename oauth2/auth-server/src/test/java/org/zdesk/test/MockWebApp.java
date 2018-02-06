@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example;
+package org.zdesk.test;
 
 import java.security.Principal;
 
@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Configuration
 @EnableOAuth2Sso
 @RestController
-public class ClientApplication {
+public class MockWebApp {
 
 	@RequestMapping("/")
 	public String home(Principal user) {
@@ -44,7 +44,7 @@ public class ClientApplication {
 	}
 
 	public static void main(String[] args) {
-		new SpringApplicationBuilder(ClientApplication.class)
+		new SpringApplicationBuilder(MockWebApp.class)
 				.properties("spring.config.name=client").run(args);
 	}
 

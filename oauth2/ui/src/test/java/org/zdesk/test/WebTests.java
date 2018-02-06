@@ -1,4 +1,4 @@
-package demo;
+package org.zdesk.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class ApplicationTests {
+public class WebTests {
 
 	@LocalServerPort
 	private int port;

@@ -1,7 +1,6 @@
 server:
   port: 9000
   context-path: /resource
-  
 security:
   basic:
     enabled: false
@@ -9,7 +8,6 @@ security:
     resource:
       jwt:
         keyUri: http://localhost:8080/oauth/token_key
-
 logging:
   level:
     org.springframework.security: DEBUG
