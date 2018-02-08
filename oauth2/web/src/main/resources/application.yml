@@ -18,8 +18,8 @@ zdesk:
     access-token-uri: http://localhost:8080/oauth/token
     user-authorization-uri: http://localhost:8080/oauth/authorize
     grant-type: authorization_code
-    pre-established-redirect-uri: http://localhost:9001/app/
-    registered-redirect-uri: http://localhost:9001/app/
+    pre-established-redirect-uri: http://localhost:9001/app/code
+    registered-redirect-uri: http://localhost:9001/app/code
     use-current-uri: false
   resource:
     userInfoUri: http://localhost:8080/user

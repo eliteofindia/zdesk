@@ -81,7 +81,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient("zdesk")
                 .secret("zdesksecret")
                 .authorizedGrantTypes("client_credentials", "password", "refresh_token", "authorization_code", "implicit")
-                .scopes("read", "write")                
+                .scopes("read", "write")
+                .redirectUris("http://localhost:9001/app/code")
                 .autoApprove(true)
                 .accessTokenValiditySeconds(600)
                 .refreshTokenValiditySeconds(1200);
@@ -94,7 +95,6 @@ class CustomTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
-        additionalInfo.put("organization", "facebook");
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }

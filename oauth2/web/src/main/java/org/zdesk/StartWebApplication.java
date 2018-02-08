@@ -36,7 +36,7 @@ public class StartWebApplication extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http.authorizeRequests().antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
+		http.authorizeRequests().antMatchers("/index.html", "/home.html", "/code", "/", "/login").permitAll()
 				.anyRequest().authenticated().and().csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);

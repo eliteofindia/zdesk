@@ -10,7 +10,7 @@ public class ApiServerConfig extends ResourceServerConfigurerAdapter{
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
-		super.configure(http);
+		http.antMatcher("/**").authorizeRequests().anyRequest().authenticated();
 	}
 	
 	
