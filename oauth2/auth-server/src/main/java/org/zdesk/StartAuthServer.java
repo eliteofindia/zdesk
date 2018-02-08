@@ -31,9 +31,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
+import org.zdesk.handlers.CustomAuthenticationSuccessHandler;
 
 @SpringBootApplication
 @RestController
@@ -42,6 +44,9 @@ public class StartAuthServer extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
+	
+	@Autowired
+	CustomAuthenticationSuccessHandler authenticationHandler;
 
 	@RequestMapping({ "/user", "/me" })
 	public Principal getPrincipal(Principal  user) {
@@ -56,8 +61,8 @@ public class StartAuthServer extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
-				.logoutSuccessUrl("/").permitAll().and().csrf().disable()
-				//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+				.logoutSuccessUrl("/").permitAll().and().csrf()
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
 				.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
@@ -123,6 +128,7 @@ public class StartAuthServer extends WebSecurityConfigurerAdapter {
 				client.getResource().getUserInfoUri(), client.getClient().getClientId());
 		tokenServices.setRestTemplate(template);
 		filter.setTokenServices(tokenServices);
+		//filter.setAuthenticationSuccessHandler(authenticationHandler);
 		return filter;
 	}
 

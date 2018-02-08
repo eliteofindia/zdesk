@@ -2,7 +2,6 @@ package org.zdesk.config;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -95,9 +93,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 class CustomTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-    	 /*Authentication auth = authentication.getUserAuthentication();
-         Map<String, String> details = new LinkedHashMap<>();
-         details = (Map<String, String>) auth.getDetails();*/
         Map<String, Object> additionalInfo = new HashMap<>();
         additionalInfo.put("organization", "facebook");
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);

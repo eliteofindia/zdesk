@@ -36,10 +36,10 @@ public class StartWebApplication extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http.logout().and().authorizeRequests().antMatchers("/index.html", "/home.html", "/", "/user/**","/resource/**").permitAll()
+		http.authorizeRequests().antMatchers("/index.html", "/home.html", "/", "/login").permitAll()
 				.anyRequest().authenticated().and().csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and().addFilterAfter(ssoFilter(), BasicAuthenticationFilter.class);
+				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
 	}
 	
