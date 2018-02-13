@@ -87,6 +87,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .accessTokenValiditySeconds(600)
                 .refreshTokenValiditySeconds(1200);
     }
+    
+ 
 
 
 }

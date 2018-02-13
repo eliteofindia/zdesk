@@ -2,6 +2,7 @@ package org.zdesk;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -22,6 +23,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
@@ -29,13 +32,13 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilt
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.CompositeFilter;
-import org.zdesk.handlers.CustomAuthenticationSuccessHandler;
 
 @SpringBootApplication
 @RestController
@@ -45,14 +48,19 @@ public class StartAuthServer extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 	
-	@Autowired
-	CustomAuthenticationSuccessHandler authenticationHandler;
+	
 
+	@SuppressWarnings("rawtypes")
 	@RequestMapping({ "/user", "/me" })
-	public Principal getPrincipal(Principal  user) {
+	public Principal getPrincipal(Principal principal) {
+		
+	 	Authentication a = SecurityContextHolder.getContext().getAuthentication();
+	    HashMap data = (HashMap) ((OAuth2Authentication) a).getUserAuthentication().getDetails();		    
+		    
 		System.out.println("####################### PRINCIPAL #######################");
-		System.out.println(user.toString());
-		return user;
+		System.out.println(principal.toString());
+		System.out.println(data.get("email"));
+		return principal;
 	}
 
 	@Override
@@ -61,8 +69,8 @@ public class StartAuthServer extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**").permitAll().anyRequest()
 				.authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
-				.logoutSuccessUrl("/").permitAll().and().csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+				.logoutSuccessUrl("/").permitAll().and().csrf().disable()
+				//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
 				.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
@@ -83,7 +91,7 @@ public class StartAuthServer extends WebSecurityConfigurerAdapter {
 			// @formatter:off
 			http.antMatcher("/me").authorizeRequests().anyRequest().authenticated();
 			// @formatter:on
-		}
+		}		
 	}
 
 	public static void main(String[] args) {
@@ -120,8 +128,9 @@ public class StartAuthServer extends WebSecurityConfigurerAdapter {
 	}
 
 	private Filter ssoFilter(ClientResources client, String path) {
-		OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(
-				path);
+		//OAuth2ClientAuthenticationProcessingFilter
+		
+		OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
 		OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
 		filter.setRestTemplate(template);
 		UserInfoTokenServices tokenServices = new UserInfoTokenServices(
