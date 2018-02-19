@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 
 public class CustomAuthenticationSuccessFilterHandler extends OAuth2ClientAuthenticationProcessingFilter {
@@ -23,7 +21,6 @@ public class CustomAuthenticationSuccessFilterHandler extends OAuth2ClientAuthen
             FilterChain chain, Authentication authResult) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);
 
-        SecurityContext context =  SecurityContextHolder.getContext();
         
     }
 }

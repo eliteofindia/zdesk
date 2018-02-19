@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -25,6 +26,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.zdesk.models.CustomPrincipal;
 
 @Configuration
 @EnableOAuth2Client
@@ -36,6 +38,12 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private Environment environment;
+    
+/*    @Autowired
+	private ResourceServerProperties sso;
+
+	@Autowired
+	private OAuth2RestOperations restTemplate;*/
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -88,15 +96,24 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .refreshTokenValiditySeconds(1200);
     }
     
- 
+/*    @Bean
+	// very important notice: method name should be exactly "userInfoTokenServices"
+	public ResourceServerTokenServices userInfoTokenServices() {
+		CustomUserInfoTokenServices serv = new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
+		serv.setTokenType(sso.getTokenType());
+		serv.setRestTemplate(restTemplate);
+		return serv;
+	}*/
 
 
 }
 
 class CustomTokenEnhancer implements TokenEnhancer {
-    @Override
+	@Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
+        Authentication auth = authentication.getUserAuthentication();
+        //additionalInfo.put("password", ((CustomPrincipal)auth.getPrincipal()).getPassword());
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }

@@ -12,7 +12,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,7 +56,9 @@ public class AuthCodeProcessing {
 		responseHeaders.set("Authorization", myMap.get("access_token"));
 		responseHeaders.setLocation(URI.create("http://localhost:9001/app/login"));
 		
-		return new ResponseEntity<Object>(responseHeaders, HttpStatus.OK);
+		//return new ResponseEntity<Object>(responseHeaders, HttpStatus.OK);
+		
+		return response;
 		
 	}
 
