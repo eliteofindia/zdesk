@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -18,6 +19,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 
+@Configuration
 //@EnableOAuth2Sso
 @EnableOAuth2Client
 public class SocialLoginConfig extends WebSecurityConfigurerAdapter {
@@ -28,7 +30,7 @@ public class SocialLoginConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http.authorizeRequests().antMatchers("/index.html", "/home.html", "/code", "/", "/login").permitAll()
+		http.authorizeRequests().antMatchers("/index.html", "/home.html", "/code", "/", "/media").permitAll()
 				.anyRequest().authenticated().and().csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
@@ -37,7 +39,7 @@ public class SocialLoginConfig extends WebSecurityConfigurerAdapter {
 	
 	
 	private Filter ssoFilter() {
-		  OAuth2ClientAuthenticationProcessingFilter zdeskAuthFilter = new OAuth2ClientAuthenticationProcessingFilter("/login");
+		  OAuth2ClientAuthenticationProcessingFilter zdeskAuthFilter = new OAuth2ClientAuthenticationProcessingFilter("/media");
 		  OAuth2RestTemplate zdeskTemplate = new OAuth2RestTemplate(zdesk(), oauth2ClientContext);
 		  zdeskAuthFilter.setRestTemplate(zdeskTemplate);
 		  UserInfoTokenServices tokenServices = new UserInfoTokenServices(zdeskResource().getUserInfoUri(), zdesk().getClientId());
