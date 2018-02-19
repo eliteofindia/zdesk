@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 
 @Configuration
@@ -30,10 +29,9 @@ public class SocialLoginConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http.authorizeRequests().antMatchers("/index.html", "/home.html", "/code", "/", "/media").permitAll()
-				.anyRequest().authenticated().and().csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+		http.authorizeRequests().antMatchers("/index.html", "/home.html", "/code", "/", "/intralogin", "/media").permitAll()
+				.anyRequest().authenticated().and().csrf().disable()
+				.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
 	}
 	
