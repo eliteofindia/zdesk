@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PrincipalController {
 
-	@RequestMapping({ "/user", "/me" })
+	@RequestMapping("/user")
 	public Principal getPrincipal(Principal principal) {
 		return principal;
 	}

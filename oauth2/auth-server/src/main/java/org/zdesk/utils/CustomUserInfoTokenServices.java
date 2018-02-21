@@ -21,7 +21,6 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.util.Assert;
-import org.zdesk.models.CustomPrincipal;
 
 public class CustomUserInfoTokenServices extends UserInfoTokenServices {
 
@@ -101,14 +100,14 @@ public class CustomUserInfoTokenServices extends UserInfoTokenServices {
      * @return the principal or {@literal "unknown"}
      */
     
-    @Override
+    /*@Override
     protected Object getPrincipal(Map<String, Object> map) {
 
         CustomPrincipal customPrincipal = new CustomPrincipal();
         if( map.containsKey("principal") ) {
             @SuppressWarnings("unchecked")
 			Map<String, Object> principalMap = (Map<String, Object>) map.get("principal");
-            customPrincipal.setUsername((String) principalMap.get("name"));
+            customPrincipal.set((String) principalMap.get("name"));
             customPrincipal.setPassword((String) principalMap.get("id"));
             customPrincipal.setRoles("FACEBOOK_USER");
 
@@ -116,12 +115,12 @@ public class CustomUserInfoTokenServices extends UserInfoTokenServices {
         //and so on..
         return customPrincipal;
 
-        /*
+        
         Object principal = this.principalExtractor.extractPrincipal(map);
         return (principal == null ? "unknown" : principal);
-        */
+        
 
-    }
+    }*/
 
     @Override
     public OAuth2AccessToken readAccessToken(String accessToken) {

@@ -15,6 +15,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,6 +29,7 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CompositeFilter;
+import org.zdesk.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +37,14 @@ import org.springframework.web.filter.CompositeFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	OAuth2ClientContext oauth2ClientContext;		
+	OAuth2ClientContext oauth2ClientContext;	
+	
+	@Autowired
+	private CustomUserDetailsService userDetailsService;
+	
+/*	@Autowired
+    private AuthenticationManager authenticationManager;*/
+		
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -52,7 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		super.configure(auth);
-		auth.inMemoryAuthentication().withUser("john").password("john").roles("USER");
+		//auth.parentAuthenticationManager(authenticationManager);
+		//auth.inMemoryAuthentication().withUser("john").password("john").roles("USER");
+		auth.userDetailsService(this.userDetailsService);
 	}
 		
 
