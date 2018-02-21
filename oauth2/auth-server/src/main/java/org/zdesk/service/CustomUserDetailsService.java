@@ -21,6 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService{
 		CustomPrincipal user =  new CustomPrincipal();
 		user.setEmail("abc@example.com");
 		user.setId("1");
+		user.setUsername("john");
+		user.setPassword("john");
+		user.setRoles(Roles.ADMIN);
 		return user;
 	}
 

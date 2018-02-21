@@ -9,7 +9,7 @@ facebook:
     clientAuthenticationScheme: form
     scope: public_profile
   resource:
-    userInfoUri: https://graph.facebook.com/me?fields=name,email,picture
+    userInfoUri: https://graph.facebook.com/me?fields=id,name,email
 github:
   client:
     clientId: bd1c0a783ccdd1c9b9e4

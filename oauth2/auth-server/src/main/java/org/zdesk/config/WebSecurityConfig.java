@@ -2,34 +2,39 @@ package org.zdesk.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CompositeFilter;
+import org.zdesk.models.CustomPrincipal;
 import org.zdesk.service.CustomUserDetailsService;
+import org.zdesk.utils.CustomUserInfoTokenServices;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 /*	@Autowired
     private AuthenticationManager authenticationManager;*/
+	
+	private DefaultAccessTokenConverter tokenConverter = new DefaultAccessTokenConverter();
 		
 
 	@Override
@@ -54,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
 				.logoutSuccessUrl("/").permitAll().and().csrf().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
-				.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+				.addFilterAt(ssoFilter(), BasicAuthenticationFilter.class);
 		// @formatter:on
 	}
 
@@ -98,11 +105,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private Filter ssoFilter(ClientResources client, String path) {
 		// OAuth2ClientAuthenticationProcessingFilter
+		
+		tokenConverter.setUserTokenConverter(new DefaultUserAuthenticationConverter() {
+
+		    @Override
+		    public Authentication extractAuthentication(Map<String, ?> map) {
+		        Authentication authentication = super.extractAuthentication(map);
+		        // User is my custom UserDetails class
+		        CustomPrincipal user = new CustomPrincipal();
+		        user.setEmail(map.get("email").toString());
+		        user.setUsername(map.get("name").toString());
+		        user.setId(map.get("id").toString());
+		        return new UsernamePasswordAuthenticationToken(user,
+		                authentication.getCredentials(), authentication.getAuthorities());
+		    }
+
+		});
 
 		OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
 		OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
 		filter.setRestTemplate(template);
-		UserInfoTokenServices tokenServices = new UserInfoTokenServices(
+		CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(
 				client.getResource().getUserInfoUri(), client.getClient().getClientId());
 		tokenServices.setRestTemplate(template);
 		filter.setTokenServices(tokenServices);
