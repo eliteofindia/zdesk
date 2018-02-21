@@ -9,6 +9,7 @@ import javax.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -34,7 +35,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.filter.CompositeFilter;
 import org.zdesk.models.CustomPrincipal;
 import org.zdesk.service.CustomUserDetailsService;
-import org.zdesk.utils.CustomUserInfoTokenServices;
 
 @Configuration
 @EnableWebSecurity
@@ -125,7 +125,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
 		OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
 		filter.setRestTemplate(template);
-		CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(
+		UserInfoTokenServices tokenServices = new UserInfoTokenServices(
 				client.getResource().getUserInfoUri(), client.getClient().getClientId());
 		tokenServices.setRestTemplate(template);
 		filter.setTokenServices(tokenServices);

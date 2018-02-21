@@ -20,6 +20,8 @@ github:
   resource:
     userInfoUri: https://api.github.com/user
 logging:
+  pattern:
+    console: (%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M\(%line\) - %msg%n)
   level:
     org.springframework.security: DEBUG
 server:
