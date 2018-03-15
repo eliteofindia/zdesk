@@ -26,8 +26,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
-import org.zdesk.models.CustomPrincipal;
-//import org.zdesk.models.CustomPrincipal;
 
 @Configuration
 @EnableOAuth2Client
@@ -104,7 +102,6 @@ class CustomTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
         Authentication auth = authentication.getUserAuthentication();
-        System.out.println(auth);
         additionalInfo.put("principal", (auth));
         /*additionalInfo.put("roles", ((CustomPrincipal)auth.getDetails()).getRoles());
         additionalInfo.put("id", ((CustomPrincipal)auth.getDetails()).getId());*/
