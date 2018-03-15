@@ -96,16 +96,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .accessTokenValiditySeconds(600)
                 .refreshTokenValiditySeconds(1200);
     }
-    
-/*    @Bean
-	// very important notice: method name should be exactly "userInfoTokenServices"
-	public ResourceServerTokenServices userInfoTokenServices() {
-		CustomUserInfoTokenServices serv = new CustomUserInfoTokenServices(sso.getUserInfoUri(), sso.getClientId());
-		serv.setTokenType(sso.getTokenType());
-		serv.setRestTemplate(restTemplate);
-		return serv;
-	}*/
-
 
 }
 
@@ -114,9 +104,10 @@ class CustomTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
         Authentication auth = authentication.getUserAuthentication();
-       /* additionalInfo.put("email", ((CustomPrincipal)auth.getPrincipal()).getEmail());
-        additionalInfo.put("roles", ((CustomPrincipal)auth.getPrincipal()).getRoles());
-        additionalInfo.put("id", ((CustomPrincipal)auth.getPrincipal()).getId());*/
+        System.out.println(auth);
+        additionalInfo.put("principal", (auth));
+        /*additionalInfo.put("roles", ((CustomPrincipal)auth.getDetails()).getRoles());
+        additionalInfo.put("id", ((CustomPrincipal)auth.getDetails()).getId());*/
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }

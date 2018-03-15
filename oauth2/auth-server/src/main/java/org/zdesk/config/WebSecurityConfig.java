@@ -50,7 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 /*	@Autowired
     private AuthenticationManager authenticationManager;*/
 	
-	private DefaultAccessTokenConverter tokenConverter = new DefaultAccessTokenConverter();
 		
 
 	@Override
@@ -104,23 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	private Filter ssoFilter(ClientResources client, String path) {
-		// OAuth2ClientAuthenticationProcessingFilter
-		
-		tokenConverter.setUserTokenConverter(new DefaultUserAuthenticationConverter() {
-
-		    @Override
-		    public Authentication extractAuthentication(Map<String, ?> map) {
-		        Authentication authentication = super.extractAuthentication(map);
-		        // User is my custom UserDetails class
-		        CustomPrincipal user = new CustomPrincipal();
-		        user.setEmail(map.get("email").toString());
-		        user.setUsername(map.get("name").toString());
-		        user.setId(map.get("id").toString());
-		        return new UsernamePasswordAuthenticationToken(user,
-		                authentication.getCredentials(), authentication.getAuthorities());
-		    }
-
-		});
+		// OAuth2ClientAuthenticationProcessingFilter		
 
 		OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
 		OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
