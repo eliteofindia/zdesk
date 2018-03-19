@@ -22,7 +22,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.util.Assert;
 import org.zdesk.models.CustomPrincipal;
-import org.zdesk.models.Roles;
 
 public class CustomUserInfoTokenServices extends UserInfoTokenServices {
 
@@ -111,7 +110,7 @@ public class CustomUserInfoTokenServices extends UserInfoTokenServices {
 			Map<String, Object> principalMap = (Map<String, Object>) map.get("principal");
             customPrincipal.setId((String) principalMap.get("id"));
             customPrincipal.setUsername((String) principalMap.get("name"));
-            customPrincipal.setRoles(Roles.FACEBOOK_USER);
+            //customPrincipal.setRoles(Roles.FACEBOOK_USER);
             return customPrincipal;
         }
         //and so on..        

@@ -12,7 +12,7 @@ public class CustomPrincipal implements UserDetails{
 	private String email;
 	private String username;
 	private String password;
-	private Roles roles;
+	private Collection<? extends GrantedAuthority> authorities;
 	
 	public String getId() {
 		return id;
@@ -53,16 +53,9 @@ public class CustomPrincipal implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.authorities;
 	}
-	public Roles getRoles() {
-		return roles;
-	}
-	
-	public void setRoles(Roles roles) {
-		this.roles = roles;
-	}
-	
+		
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -80,6 +73,9 @@ public class CustomPrincipal implements UserDetails{
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return this.username;
+	}
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+		this.authorities = authorities;
 	}
 	
 }

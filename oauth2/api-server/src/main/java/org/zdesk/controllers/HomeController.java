@@ -18,10 +18,10 @@ public class HomeController {
 		return new Message("Hello World");
 	}
 	
-	@PreAuthorize("#oauth2.hasScope('read')")
+	@PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public Map<String, String> user(Principal user) {
-        return Collections.singletonMap("message", "user is: " + user.toString());
+        return Collections.singletonMap("message", "user is: " + user);
 	}
 }
 
