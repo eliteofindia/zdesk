@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			user.setUsername("john");
 			user.setPassword("john");
 			ArrayList<GrantedAuthority> authority = new ArrayList<GrantedAuthority>();
-			authority.add(new SimpleGrantedAuthority(Roles.ROLE_USER.toString()));
+			authority.add(new SimpleGrantedAuthority(Roles.ROLE_ADMIN.toString()));
 			user.setAuthorities(authority);
 			return user;
 		}

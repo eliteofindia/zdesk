@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,17 +49,18 @@ public class AuthCodeProcessing {
 		access_token_url += "&redirect_uri=http://localhost:9001/app/code";
 
 		response = restTemplate.exchange(access_token_url, HttpMethod.POST, request, String.class);
+		
 		Map<String,String> myMap = new HashMap<String, String>();
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		myMap = objectMapper.readValue(response.getBody(), HashMap.class);
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.set("Authorization", myMap.get("access_token"));
-		responseHeaders.setLocation(URI.create("http://localhost:9001/app/login"));
+		responseHeaders.setLocation(URI.create("http://localhost:9001/app/"));
 		
-		//return new ResponseEntity<Object>(responseHeaders, HttpStatus.OK);
+		return new ResponseEntity<Object>(myMap.get("access_token"), HttpStatus.OK);
 		
-		return response;
+		//return responseHeaders;
 		
 	}
 

@@ -55,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/").permitAll().and().csrf().disable()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
 				.addFilterAt(ssoFilter(), BasicAuthenticationFilter.class);
+		http.formLogin().loginPage("/");
 		// @formatter:on
 	}
 

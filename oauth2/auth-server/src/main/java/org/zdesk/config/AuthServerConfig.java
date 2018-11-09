@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -26,6 +27,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.zdesk.models.CustomPrincipal;
 
 @Configuration
 @EnableOAuth2Client
@@ -38,12 +40,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private Environment environment;
     
-/*    @Autowired
-	private ResourceServerProperties sso;
-
-	@Autowired
-	private OAuth2RestOperations restTemplate;*/
-
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     	TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
@@ -62,7 +58,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("permitAll()")
+        security.tokenKeyAccess("isAnonymous()")
                 .checkTokenAccess("isAuthenticated()");
     }
 
@@ -87,6 +83,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         clients.inMemory()
                 .withClient("zdesk")
                 .secret("zdesksecret")
+                .authorities("ROLE_ZDESK_CLIENT")
                 .authorizedGrantTypes("client_credentials", "password", "refresh_token", "authorization_code", "implicit")
                 .scopes("read", "write")
                 .redirectUris("http://localhost:9001/app/code")
@@ -102,9 +99,15 @@ class CustomTokenEnhancer implements TokenEnhancer {
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
         Authentication auth = authentication.getUserAuthentication();
-        additionalInfo.put("principal", (auth));
-        /*additionalInfo.put("roles", ((CustomPrincipal)auth.getDetails()).getRoles());
-        additionalInfo.put("id", ((CustomPrincipal)auth.getDetails()).getId());*/
+        auth.setAuthenticated(true);
+        if(auth.getPrincipal() instanceof String) {
+        	additionalInfo.put("authentication", auth.getDetails());
+        }
+        else {
+	        additionalInfo.put("email", (((CustomPrincipal)auth.getPrincipal()).getEmail()));
+	        additionalInfo.put("roles", ((CustomPrincipal)auth.getPrincipal()).getAuthorities());
+	        additionalInfo.put("id", ((CustomPrincipal)auth.getPrincipal()).getId());
+        }
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }
